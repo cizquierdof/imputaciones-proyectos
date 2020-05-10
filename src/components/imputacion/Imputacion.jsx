@@ -7,7 +7,7 @@ export class Imputacion extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            date: '',
+            date: new Date().toLocaleDateString(),
             concepto: '',
             importe: '',
             tipo: ''
@@ -28,7 +28,7 @@ export class Imputacion extends Component {
                 iconPosition="left"
                 onChange={this.handleChange}
                 localization='es'
-                popupPosition='left'
+                popupPosition='left center'
             />
         )
     }
