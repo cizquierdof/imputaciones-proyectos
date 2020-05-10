@@ -24,12 +24,17 @@ export class TablaImputaciones extends Component {
                         (items, index) =>
                             (
                                 <Table.Row key={index}>
-                                <Table.Cell>{(props.tipo==='ingresos')&&<Icon link color='purple' name='angle double left'/>}</Table.Cell>
-
+                                    <Table.Cell>
+                                        {(props.tipo === 'ingresos')
+                                            && <Icon link color='purple' name='angle double left' />}
+                                    </Table.Cell>
                                     <Table.Cell>{items.fecha}</Table.Cell>
                                     <Table.Cell>{items.concepto}</Table.Cell>
                                     <Table.Cell>{items.importe} </Table.Cell>
-                                    <Table.Cell>{(props.tipo==='gastos')&&<Icon link color='green' name='angle double right'/>}</Table.Cell>
+                                    <Table.Cell>
+                                        {(props.tipo === 'gastos')
+                                            && <Icon link color='green' name='angle double right' />}
+                                    </Table.Cell>
                                 </Table.Row>
                             )
                     )
@@ -93,14 +98,14 @@ export class TablaImputaciones extends Component {
 
         return (
             <Segment raised>
-            <Header as='h2' textAlign='right' block color={this.state.saldo>0?'green':'red'}>
+                <Header as='h2' textAlign='right' block color={this.state.saldo > 0 ? 'green' : 'red'}>
                     Saldo= {this.state.saldo}
-            </Header>
+                </Header>
                 <Grid columns={2} divided>
                     <Grid.Column>
                         <Label color='red' ribbon>GASTOS</Label>
                         <Table celled unstackable color='purple'>
-                        <this.CabeceraTabla/>
+                            <this.CabeceraTabla />
                             <this.TableBody imputaciones={this.props.imputaciones} tipo='gastos' />
                             <this.TableTotales suma={this.state.sumaGastos} />
                         </Table>
@@ -108,7 +113,7 @@ export class TablaImputaciones extends Component {
                     <Grid.Column>
                         <Label color='blue' ribbon>INGRESOS</Label>
                         <Table celled color='green'>
-                        <this.CabeceraTabla/>
+                            <this.CabeceraTabla />
                             <this.TableBody imputaciones={this.props.imputaciones} tipo='ingresos' />
                             <this.TableTotales suma={this.state.sumaIngresos} />
                         </Table>
