@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Segment, Label, Table, Grid, Header } from 'semantic-ui-react'
+import { Segment, Label, Table, Grid, Header, Icon, Tab } from 'semantic-ui-react'
 import './TablaImputaciones.css'
 
 export class TablaImputaciones extends Component {
@@ -24,9 +24,12 @@ export class TablaImputaciones extends Component {
                         (items, index) =>
                             (
                                 <Table.Row key={index}>
+                                <Table.Cell>{(props.tipo==='ingresos')&&<Icon link color='purple' name='angle double left'/>}</Table.Cell>
+
                                     <Table.Cell>{items.fecha}</Table.Cell>
                                     <Table.Cell>{items.concepto}</Table.Cell>
-                                    <Table.Cell>{items.importe}</Table.Cell>
+                                    <Table.Cell>{items.importe} </Table.Cell>
+                                    <Table.Cell>{(props.tipo==='gastos')&&<Icon link color='green' name='angle double right'/>}</Table.Cell>
                                 </Table.Row>
                             )
                     )
@@ -40,8 +43,10 @@ export class TablaImputaciones extends Component {
             <Table.Footer>
                 <Table.Row>
                     <Table.Cell></Table.Cell>
+                    <Table.Cell></Table.Cell>
                     <Table.Cell className='totales'>Total</Table.Cell>
                     <Table.Cell className='totales'>{props.suma}</Table.Cell>
+                    <Table.Cell></Table.Cell>
                 </Table.Row>
             </Table.Footer>
         )
@@ -51,9 +56,11 @@ export class TablaImputaciones extends Component {
         return (
             <Table.Header>
                 <Table.Row>
+                    <Table.HeaderCell></Table.HeaderCell>
                     <Table.HeaderCell>Fecha</Table.HeaderCell>
                     <Table.HeaderCell>Concepto</Table.HeaderCell>
                     <Table.HeaderCell>Importe</Table.HeaderCell>
+                    <Table.HeaderCell></Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
         )
@@ -92,7 +99,7 @@ export class TablaImputaciones extends Component {
                 <Grid columns={2} divided>
                     <Grid.Column>
                         <Label color='red' ribbon>GASTOS</Label>
-                        <Table celled color='red'>
+                        <Table celled unstackable color='purple'>
                         <this.CabeceraTabla/>
                             <this.TableBody imputaciones={this.props.imputaciones} tipo='gastos' />
                             <this.TableTotales suma={this.state.sumaGastos} />
@@ -100,7 +107,7 @@ export class TablaImputaciones extends Component {
                     </Grid.Column>
                     <Grid.Column>
                         <Label color='blue' ribbon>INGRESOS</Label>
-                        <Table celled color='red'>
+                        <Table celled color='green'>
                         <this.CabeceraTabla/>
                             <this.TableBody imputaciones={this.props.imputaciones} tipo='ingresos' />
                             <this.TableTotales suma={this.state.sumaIngresos} />
