@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Segment, Label, Table, Grid, Header, Icon, Tab } from 'semantic-ui-react'
+import { Segment, Label, Table, Grid, Header, Icon} from 'semantic-ui-react'
 import './TablaImputaciones.css'
 
 export class TablaImputaciones extends Component {
