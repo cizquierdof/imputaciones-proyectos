@@ -2,6 +2,8 @@ import React from 'react'
 import '../css//Splash.css'
 import config from '../config/config'
 
+
+
 const splash = () => {
     return (
         <div className='splash'>
