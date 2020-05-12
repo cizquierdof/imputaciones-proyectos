@@ -26,9 +26,9 @@ export class TablaImputaciones extends Component {
 
     cambiaTipoImputacion = (tipo, id) => {
 
-        console.log('proyecto', this.props.proyecto);
-        console.log('doc imputacion', id);
-        console.log('tipo', tipo)
+        // console.log('proyecto', this.props.proyecto);
+        // console.log('doc imputacion', id);
+        // console.log('tipo', tipo)
 
         db.collection('projects').doc(this.props.proyecto).collection('imputaciones').doc(id)
             .update(
@@ -52,32 +52,42 @@ export class TablaImputaciones extends Component {
             datosImputaciones: nuevasImputaciones,
             sumaGastos:this.total('gastos'),
             sumaIngresos: this.total('ingresos')
-
         })
     }
 
+    _editableFocus=(texto)=>{
+        console.log('Texto que hay',texto);
+    }
+
+    __editableFocusOut=(texto)=>{
+        console.log('nievo texto',texto)
+    }
 
 
     borraImputacion = (id) => {
-        console.log('borra imputacion', id);
-        db.collection("projects").doc(this.props.proyecto).collection('imputaciones').doc(id).delete().then(function () {
-            console.log("Document successfully deleted!");
-        }).catch(function (error) {
-            console.error("Error removing document: ", error);
-        });
+        //console.log('borra imputacion', id);
 
-        const nuevasImputaciones = this.state.datosImputaciones.filter(
-            item => item.idImputacion !== id
-
-        )
-
-        this.setState({
-             datosImputaciones: nuevasImputaciones,
-             sumaGastos:this.total('gastos'),
-             sumaIngresos: this.total('ingresos'),
-
-            })
-
+        if(false){
+            db.collection("projects").doc(this.props.proyecto).collection('imputaciones').doc(id).delete().then(function () {
+                console.log("Document successfully deleted!");
+            }).catch(function (error) {
+                console.error("Error removing document: ", error);
+            });
+    
+            const nuevasImputaciones = this.state.datosImputaciones.filter(
+                item => item.idImputacion !== id
+    
+            )
+    
+            this.setState({
+                 datosImputaciones: nuevasImputaciones,
+                 sumaGastos:this.total('gastos'),
+                 sumaIngresos: this.total('ingresos'),
+    
+                })
+    
+    
+        }
     }
 
     /***********************
@@ -167,7 +177,8 @@ export class TablaImputaciones extends Component {
                         <Table celled unstackable color='red'>
                             <CabeceraTabla />
                             <FilasTabla imputaciones={this.state.datosImputaciones} tipo='gastos'
-                                cambiaTipo={this.cambiaTipoImputacion} borrar={this.borraImputacion} />
+                                cambiaTipo={this.cambiaTipoImputacion} borrar={this.borraImputacion}
+                                textoAntiguo={this._editableFocus} textoNuevo={this.__editableFocusOut} />
                             <Totales suma={this.state.sumaGastos} />
                         </Table>
                     </Grid.Column>
@@ -176,7 +187,8 @@ export class TablaImputaciones extends Component {
                         <Table celled unstackable color='blue'>
                             <CabeceraTabla />
                             <FilasTabla imputaciones={this.state.datosImputaciones} tipo='ingresos'
-                                cambiaTipo={this.cambiaTipoImputacion} borrar={this.borraImputacion} />
+                                cambiaTipo={this.cambiaTipoImputacion} borrar={this.borraImputacion} 
+                                textoAntiguo={this._editableFocus} textoNuevo={this.__editableFocusOut} />
                             <Totales suma={this.state.sumaIngresos} />
                         </Table>
                     </Grid.Column>

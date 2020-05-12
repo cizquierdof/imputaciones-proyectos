@@ -1,50 +1,101 @@
 import React from 'react'
 import { Table, Icon } from 'semantic-ui-react'
+import EditableLabel from '../EditableLabel'
 
 const FilasTabla = (props) => {
 
-    const dobleClickHandler=()=>{
-        console.log('doble click');
+
+    const _handleFocus = (text, id) => {
+        console.log('texto viejo', text, props.tipo, id)
+
+
+        //props.textoAntiguo(text)
     }
+
+    const _handleFocusOut = (text, id) => {
+        console.log('texto nuevo', text, id)
+    }
+
 
     return (
         <Table.Body>
-        {
-            props.imputaciones.filter(
-                (res) => res.data.tipo === props.tipo
-            ).map(
-                (items, index) =>
-                    (
-                        <Table.Row key={index}>
-                            <Table.Cell onDoubleClick={dobleClickHandler}>
-                                {
-                                   ( (props.tipo === 'ingresos')
-                                    && <Icon link color='purple' name='arrow left'
-                                        onClick={()=>props.cambiaTipo('gastos',items.idImputacion)} 
-                                         />)||<Icon link color='purple' name='trash'
-                                         onClick={()=>props.borrar(items.idImputacion)}
-                                         />
-                                        }
-                            </Table.Cell>
-                            <Table.Cell>{items.data.fecha}</Table.Cell>
-                            <Table.Cell>{items.data.concepto}</Table.Cell>
-                            <Table.Cell>{items.data.importe} </Table.Cell>
-                            <Table.Cell>
-                                {
-                                    ((props.tipo === 'gastos')
-                                    && <Icon link color='blue' name='arrow right'
-                                        onClick={()=>props.cambiaTipo('ingresos',items.idImputacion)} 
-                                         />)||<Icon link color='purple' name='trash'
-                                         onClick={()=>props.borrar(items.idImputacion)}
-                                         />
-                                        }
-                            </Table.Cell>
-                        </Table.Row>
-                    )
-            )
-        }
-    </Table.Body>
-)
+            {
+                props.imputaciones.filter(
+                    (res) => res.data.tipo === props.tipo
+                ).map(
+                    (items, index) =>
+                        (
+                            <Table.Row key={index}>
+                                <Table.Cell>
+                                    {
+                                        ((props.tipo === 'ingresos')
+                                            && <Icon link color='purple' name='arrow left'
+                                                onClick={() => props.cambiaTipo('gastos', items.idImputacion)}
+                                            />) || <Icon link color='purple' name='trash'
+                                                onClick={() => props.borrar(items.idImputacion)}
+                                        />
+                                    }
+                                </Table.Cell>
+                                <Table.Cell>
+                                    <EditableLabel text={items.data.fecha}
+                                        idImputacion={items.idImputacion}
+                                        labelClassName='myLabelClass'
+                                        inputClassName='myInputClass'
+                                        inputWidth='100px'
+                                        inputHeight='25px'
+                                        inputMaxLength={25}
+                                        labelFontWeight='bold'
+                                        inputFontWeight='bold'
+                                        onFocus={_handleFocus}
+                                        onFocusOut={_handleFocusOut}
+                                    />
+                                </Table.Cell>
+                                <Table.Cell>
+                                    <EditableLabel text={items.data.concepto}
+                                        idImputacion={items.idImputacion}
+                                        labelClassName='myLabelClass'
+                                        inputClassName='myInputClass'
+                                        inputWidth='100px'
+                                        inputHeight='25px'
+                                        inputMaxLength={25}
+                                        labelFontWeight='bold'
+                                        inputFontWeight='bold'
+                                        onFocus={_handleFocus}
+                                        onFocusOut={_handleFocusOut}
+                                    />
+
+                                </Table.Cell>
+                                <Table.Cell>
+                                    <EditableLabel text={items.data.importe}
+                                        idImputacion={items.idImputacion}
+                                        labelClassName='myLabelClass'
+                                        inputClassName='myInputClass'
+                                        inputWidth='100px'
+                                        inputHeight='25px'
+                                        inputMaxLength={25}
+                                        labelFontWeight='bold'
+                                        inputFontWeight='bold'
+                                        onFocus={_handleFocus}
+                                        onFocusOut={_handleFocusOut}
+                                    />
+
+                                </Table.Cell>
+                                <Table.Cell>
+                                    {
+                                        ((props.tipo === 'gastos')
+                                            && <Icon link color='blue' name='arrow right'
+                                                onClick={() => props.cambiaTipo('ingresos', items.idImputacion)}
+                                            />) || <Icon link color='purple' name='trash'
+                                                onClick={() => props.borrar(items.idImputacion)}
+                                        />
+                                    }
+                                </Table.Cell>
+                            </Table.Row>
+                        )
+                )
+            }
+        </Table.Body>
+    )
 }
 
 export default FilasTabla
