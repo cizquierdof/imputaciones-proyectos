@@ -18,8 +18,6 @@ export class TablaImputaciones extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            sumaIngresos: 0,
-            sumaGastos: 0,
             datosImputaciones: []
         }
     }
@@ -48,45 +46,45 @@ export class TablaImputaciones extends Component {
         )
 
         nuevasImputaciones.push(nuevoElemento);
-        this.setState({ 
+        this.setState({
             datosImputaciones: nuevasImputaciones,
-            sumaGastos:this.total('gastos'),
+            sumaGastos: this.total('gastos'),
             sumaIngresos: this.total('ingresos')
         })
     }
 
-    _editableFocus=(texto)=>{
-        console.log('Texto que hay',texto);
+    _editableFocus = (texto) => {
+        console.log('Texto que hay', texto);
     }
 
-    __editableFocusOut=(texto)=>{
-        console.log('nievo texto',texto)
+    __editableFocusOut = (texto) => {
+        console.log('nievo texto', texto)
     }
 
 
     borraImputacion = (id) => {
         //console.log('borra imputacion', id);
 
-        if(false){
+        if (window.confirm('¿Borrar? \n No se puede deshacer')) {
             db.collection("projects").doc(this.props.proyecto).collection('imputaciones').doc(id).delete().then(function () {
                 console.log("Document successfully deleted!");
             }).catch(function (error) {
                 console.error("Error removing document: ", error);
             });
-    
+
             const nuevasImputaciones = this.state.datosImputaciones.filter(
                 item => item.idImputacion !== id
-    
+
             )
-    
+
             this.setState({
-                 datosImputaciones: nuevasImputaciones,
-                 sumaGastos:this.total('gastos'),
-                 sumaIngresos: this.total('ingresos'),
-    
-                })
-    
-    
+                datosImputaciones: nuevasImputaciones,
+                sumaGastos: this.total('gastos'),
+                sumaIngresos: this.total('ingresos'),
+
+            })
+
+
         }
     }
 
@@ -95,7 +93,7 @@ export class TablaImputaciones extends Component {
      */
 
     total = (tipo) => {
-        //console.log('gastos',this.props.imputaciones[0])
+        //console.log(tipo,this.state.datosImputaciones)
         const suma = this.state.datosImputaciones.filter
             (
                 res => res.data.tipo === tipo
@@ -104,63 +102,45 @@ export class TablaImputaciones extends Component {
             ).reduce(
                 (suma, item) => suma + parseFloat(item), 0
             )
+            
         return suma
     }
 
-    /***************
-     * 
-     * recupera el array de imputaciones del proyecto
-     * 
-     */
-
-    recuperaImputaciones = () => {
-        db.collection('projects').doc(this.props.proyecto).collection('imputaciones').get().then(
-
-            res => {
-                const imputacionesDocs = res.docs.map(
-                    item => {
-
-                        return {
-                            idImputacion: item.id,
-                            data: item.data()
-                        };
-                    }
-                )
-                this.setState({
-                    datosImputaciones: imputacionesDocs
-                })
-            }
-        )
-    }
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.state === prevState) {
+        //console.log('didupdate',this.props.imputaciones)
+        if (this.props !== prevProps) {
 
+                // this.setState({
+                //     datosImputaciones:this.props.imputaciones
+                // });
+            const imputaciones=this.props.imputaciones
             this.setState({
-                sumaGastos: this.total('gastos'),
-                sumaIngresos: this.total('ingresos'),
+                datosImputaciones:imputaciones
+    
             })
         }
     }
 
+    
+
     componentDidMount() {
-
-        this.recuperaImputaciones();
-
+        //console.log('didmount',this.props.imputaciones)
         this.setState({
-            sumaGastos: this.total('gastos'),
-            sumaIngresos: this.total('ingresos'),
+            datosImputaciones:this.props.imputaciones,
         })
 
     }
 
     render() {
-        const datosTarta=[
-            {name:'Gastos', value:this.state.sumaGastos},
-            {name:'Ingresos',value:this.state.sumaIngresos}
+        const sumaGastos=this.total('gastos');
+        const sumaIngresos=this.total('ingresos')
+        const datosTarta = [
+            { name: 'Gastos', value: sumaGastos },
+            { name: 'Ingresos', value: sumaIngresos}
         ]
         //console.log(datosTarta)
-        const saldo = this.state.sumaIngresos - this.state.sumaGastos
+        const saldo = sumaIngresos - sumaGastos
         return (
             <Segment raised>
                 <Header as='h2' textAlign='right' block color={saldo > 0 ? 'blue' : 'red'}>
@@ -170,7 +150,7 @@ export class TablaImputaciones extends Component {
                     <Grid.Column width={3} >
                         <Label color='teal' ribbon>DISTRIBUCIÓN</Label>
 
-                            <Tarta data={datosTarta}/>
+                        <Tarta data={datosTarta} />
                     </Grid.Column>
                     <Grid.Column width={6} >
                         <Label color='red' ribbon>GASTOS</Label>
@@ -179,7 +159,7 @@ export class TablaImputaciones extends Component {
                             <FilasTabla imputaciones={this.state.datosImputaciones} tipo='gastos'
                                 cambiaTipo={this.cambiaTipoImputacion} borrar={this.borraImputacion}
                                 textoAntiguo={this._editableFocus} textoNuevo={this.__editableFocusOut} />
-                            <Totales suma={this.state.sumaGastos} />
+                            <Totales suma={sumaGastos} />
                         </Table>
                     </Grid.Column>
                     <Grid.Column width={6} >
@@ -187,9 +167,9 @@ export class TablaImputaciones extends Component {
                         <Table celled unstackable color='blue'>
                             <CabeceraTabla />
                             <FilasTabla imputaciones={this.state.datosImputaciones} tipo='ingresos'
-                                cambiaTipo={this.cambiaTipoImputacion} borrar={this.borraImputacion} 
+                                cambiaTipo={this.cambiaTipoImputacion} borrar={this.borraImputacion}
                                 textoAntiguo={this._editableFocus} textoNuevo={this.__editableFocusOut} />
-                            <Totales suma={this.state.sumaIngresos} />
+                            <Totales suma={sumaIngresos} />
                         </Table>
                     </Grid.Column>
 

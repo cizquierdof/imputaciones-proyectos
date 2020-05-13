@@ -13,38 +13,71 @@ export class ProjectView extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            project: {},
-            puedoImputar: false
+            projectContent: {},
+            puedoImputar: false,
+            datosImputaciones: []
         }
+        this.proyectoActual = this.props.match.params.id
 
-        this.proyectoActual=this.props.match.params.id
+    }
+
+    recuperaImputaciones = () => {
+        db.collection('projects').doc(this.proyectoActual).collection('imputaciones').get().then(
+
+            res => {
+                const imputacionesDocs = res.docs.map(
+                    item => {
+
+                        return {
+                            idImputacion: item.id,
+                            data: item.data()
+                        };
+                    }
+                )
+                this.setState({
+                    datosImputaciones: imputacionesDocs
+                })
+            }
+        )
     }
 
     componentDidMount() {
-        //console.log(this.props.match)
 
         db.collection('projects').doc(this.proyectoActual).get()
             .then(
                 res => this.setState({
-                    project: res.data()
+                    projectContent: res.data()
                 })
             )
 
+        this.recuperaImputaciones();
     }
-
 
     onClickImputar = () => {
         this.setState({ puedoImputar: true })
     }
 
     guardarImputacion = (imputacion) => {
+
+        //console.log('imputacion',imputacion)
+
         db.collection('projects').doc(this.proyectoActual).collection('imputaciones').add(imputacion).then(
             res => {
                 this.setState({ puedoImputar: false })
             }
-        )
-    }
+        );
+        
+        this.recuperaImputaciones();
+        // const nuevasImputaciones = this.state.datosImputaciones;
+        // nuevasImputaciones.push(imputacion)
 
+
+
+        // this.setState({
+        //     datosImputaciones: nuevasImputaciones
+        // })
+
+    }
 
 
     render() {
@@ -55,7 +88,7 @@ export class ProjectView extends Component {
                 <SegmentGroup horizontal>
                     <Segment raised>
                         <Label color='teal' ribbon>Proyecto</Label>
-                        <ProjectCard item={this.state.project}></ProjectCard>
+                        <ProjectCard item={this.state.projectContent}></ProjectCard>
                         <Link to="/projects" className="ui button">Volver</Link>
                         <Button onClick={e => this.onClickImputar()}>Imputar</Button>
                     </Segment>
@@ -66,7 +99,7 @@ export class ProjectView extends Component {
                         <Inputacion imputar={this.state.puedoImputar} guardarImputacion={this.guardarImputacion} />
                     </Segment>
                 </SegmentGroup>
-                <TablaImputaciones proyecto={this.proyectoActual} />
+                <TablaImputaciones imputaciones={this.state.datosImputaciones} proyecto={this.proyectoActual} />
             </Container>
         )
     }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Icon } from 'semantic-ui-react'
+import { Table, Icon} from 'semantic-ui-react'
 import EditableLabel from '../EditableLabel'
 
 const FilasTabla = (props) => {
@@ -7,15 +7,13 @@ const FilasTabla = (props) => {
 
     const _handleFocus = (text, id) => {
         console.log('texto viejo', text, props.tipo, id)
-
-
-        //props.textoAntiguo(text)
     }
 
     const _handleFocusOut = (text, id) => {
         console.log('texto nuevo', text, id)
     }
 
+    console.log('filas',props.imputaciones)
 
     return (
         <Table.Body>
@@ -88,12 +86,12 @@ const FilasTabla = (props) => {
                                             />) || <Icon link color='purple' name='trash'
                                                 onClick={() => props.borrar(items.idImputacion)}
                                         />
-                                    }
+                                     }
                                 </Table.Cell>
                             </Table.Row>
                         )
                 )
-            }
+                                    }
         </Table.Body>
     )
 }

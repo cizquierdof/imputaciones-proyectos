@@ -83,7 +83,6 @@ export class Imputacion extends Component {
                 {
                     this.props.imputar&&<Button onClick={() => this.props.guardarImputacion(imputacion)}>Guardar</Button>
                 }
-                
             </Form>
         )
     }
