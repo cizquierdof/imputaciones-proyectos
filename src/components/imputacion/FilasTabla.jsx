@@ -5,15 +5,32 @@ import EditableLabel from '../EditableLabel'
 const FilasTabla = (props) => {
 
 
-    const _handleFocus = (text, id) => {
-        console.log('texto viejo', text, props.tipo, id)
+    const _handleFocusConcepto = (text, id) => {
+        console.log('concepto viejo', text, props.tipo, id)
     }
 
-    const _handleFocusOut = (text, id) => {
-        console.log('texto nuevo', text, id)
+    const _handleFocusOutConcepto = (text, id) => {
+        console.log('concepto nuevo', text, id)
+        //props.textoNuevo()
+    }
+    const _handleFocusImporte = (text, id) => {
+        console.log('importe viejo', text, props.tipo, id)
     }
 
-    console.log('filas',props.imputaciones)
+    const _handleFocusOutImporte = (text, id) => {
+        console.log('importe nuevo', text, id)
+        //props.textoNuevo()
+    }
+    const _handleFocusFecha = (text, id) => {
+        console.log('fecha viejo', text, props.tipo, id)
+    }
+
+    const _handleFocusOutFecha = (text, id) => {
+        console.log('fecha nuevo', text, id)
+        //props.textoNuevo()
+    }
+
+    //console.log('filas',props.imputaciones)
 
     return (
         <Table.Body>
@@ -44,8 +61,8 @@ const FilasTabla = (props) => {
                                         inputMaxLength={25}
                                         labelFontWeight='bold'
                                         inputFontWeight='bold'
-                                        onFocus={_handleFocus}
-                                        onFocusOut={_handleFocusOut}
+                                        onFocus={_handleFocusFecha}
+                                        onFocusOut={_handleFocusOutFecha}
                                     />
                                 </Table.Cell>
                                 <Table.Cell>
@@ -58,8 +75,8 @@ const FilasTabla = (props) => {
                                         inputMaxLength={25}
                                         labelFontWeight='bold'
                                         inputFontWeight='bold'
-                                        onFocus={_handleFocus}
-                                        onFocusOut={_handleFocusOut}
+                                        onFocus={_handleFocusConcepto}
+                                        onFocusOut={_handleFocusOutConcepto}
                                     />
 
                                 </Table.Cell>
@@ -73,8 +90,8 @@ const FilasTabla = (props) => {
                                         inputMaxLength={25}
                                         labelFontWeight='bold'
                                         inputFontWeight='bold'
-                                        onFocus={_handleFocus}
-                                        onFocusOut={_handleFocusOut}
+                                        onFocus={_handleFocusImporte}
+                                        onFocusOut={_handleFocusOutImporte}
                                     />
 
                                 </Table.Cell>

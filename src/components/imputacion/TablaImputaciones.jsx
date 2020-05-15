@@ -114,9 +114,8 @@ export class TablaImputaciones extends Component {
                 // this.setState({
                 //     datosImputaciones:this.props.imputaciones
                 // });
-            const imputaciones=this.props.imputaciones
             this.setState({
-                datosImputaciones:imputaciones
+                datosImputaciones:this.props.imputaciones
     
             })
         }
@@ -126,9 +125,9 @@ export class TablaImputaciones extends Component {
 
     componentDidMount() {
         //console.log('didmount',this.props.imputaciones)
-        this.setState({
-            datosImputaciones:this.props.imputaciones,
-        })
+        // this.setState({
+        //     datosImputaciones:this.props.imputaciones,
+        // })
 
     }
 

@@ -45,9 +45,13 @@ export class ProjectView extends Component {
 
         db.collection('projects').doc(this.proyectoActual).get()
             .then(
-                res => this.setState({
+                res => {
+                    this.setState({
                     projectContent: res.data()
+                    
                 })
+                
+            }
             )
 
         this.recuperaImputaciones();
@@ -68,15 +72,6 @@ export class ProjectView extends Component {
         );
         
         this.recuperaImputaciones();
-        // const nuevasImputaciones = this.state.datosImputaciones;
-        // nuevasImputaciones.push(imputacion)
-
-
-
-        // this.setState({
-        //     datosImputaciones: nuevasImputaciones
-        // })
-
     }
 
 
